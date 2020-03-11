@@ -1,0 +1,87 @@
+version: '3.7'
+services:  
+
+  elasticsearch6:
+    build:
+      context: .
+      dockerfile: elasticsearch6/Dockerfile
+    image: elasticsearch6-image:v1
+    container_name: elasticsearch-zipkin
+    ports:
+      - 9200:9200
+    restart: always
+    networks:
+      - springcloudzipkin
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 1500M
+
+  microservicios-rabbitmq38:
+    image: rabbitmq:3.8.3-rc.2-management-alpine
+    container_name: rabbitmq-zipkin
+    ports:
+      - "15672:15672"
+      - "5672:5672"
+    restart: always
+    networks:
+      - springcloudzipkin
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 250M
+
+  zipkin-server:
+    build:
+      context: .
+      dockerfile: zipkin/Dockerfile
+    image: zipkin-server:v1
+    container_name: server-zipkin
+    ports:
+      - "9411:9411"
+    restart: always
+    networks:
+      - springcloudzipkin
+    depends_on: 
+      - elasticsearch6
+      - microservicios-rabbitmq38
+    environment: 
+      RABBIT_ADDRESSES: rabbitmq-zipkin:5672
+      STORAGE_TYPE: elasticsearch
+      # Point the zipkin at the storage backend
+      ES_HOSTS: elasticsearch-zipkin:9200
+      # Uncomment to see requests to and from elasticsearch
+      ES_HTTP_LOGGING: BODY
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 350M
+
+  curator:
+    # image: anjia0532/docker-curator:5.5.3
+    build:
+      context: .
+      dockerfile: curator/Dockerfile
+      args:
+        - CURATOR_VERSION=5.8.1
+    image: curator-image:v1
+    container_name: curator-zipkin
+    environment:
+      UNIT_COUNT: 1 # 10
+      UNIT: days # seconds minutes hours days weeks months years
+      ES_HOST: elasticsearch-zipkin
+    networks:
+      - springcloudzipkin
+    depends_on:
+      - elasticsearch6
+    deploy:
+      resources:
+        limits:
+          cpus: '0.25'
+          memory: 30M
+          
+networks:
+  springcloudzipkin:
