@@ -12,6 +12,8 @@ services:
     restart: always
     networks:
       - springcloudzipkin
+    volumes:
+      - elasticsearch-data:/usr/share/elasticsearch/data
     deploy:
       resources:
         limits:
@@ -27,6 +29,8 @@ services:
     restart: always
     networks:
       - springcloudzipkin
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq
     deploy:
       resources:
         limits:
@@ -85,3 +89,7 @@ services:
           
 networks:
   springcloudzipkin:
+
+volumes:
+  rabbitmq-data:
+  elasticsearch-data:
