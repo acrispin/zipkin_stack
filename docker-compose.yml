@@ -14,6 +14,11 @@ services:
       - springcloudzipkin
     volumes:
       - elasticsearch-data:/usr/share/elasticsearch/data
+    logging:
+      driver: "json-file"
+        options:
+        max-size: "100m"
+        max-file: "3"
     deploy:
       resources:
         limits:
@@ -31,6 +36,11 @@ services:
       - springcloudzipkin
     volumes:
       - rabbitmq-data:/var/lib/rabbitmq
+    logging:
+      driver: "json-file"
+        options:
+          max-size: "100m"
+          max-file: "3"
     deploy:
       resources:
         limits:
@@ -58,6 +68,11 @@ services:
       ES_HOSTS: elasticsearch-zipkin:9200
       # Uncomment to see requests to and from elasticsearch
       ES_HTTP_LOGGING: BODY
+    logging:
+      driver: "json-file"
+        options:
+        max-size: "100m"
+        max-file: "3"
     deploy:
       resources:
         limits:

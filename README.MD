@@ -37,6 +37,11 @@ docker-compose --compatibility exec curator sh
 docker-compose logs -f microservicios-rabbitmq38  
 docker-compose logs -f elasticsearch6  
 docker-compose logs -f zipkin-server  
+docker-compose logs -f --tail 10  
+docker-compose logs -f --tail 10  elasticsearch6  
+
+docker logs -f --tail 10 CONTAINER_NAME  
+docker logs -f --tail 10 server-zipkin  
 
 # Eliminar todas las imagenes
 docker rmi $(docker images -aq)

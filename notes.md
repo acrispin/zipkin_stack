@@ -61,3 +61,8 @@ docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3-manag
 - https://github.com/amoraes/zipkin-elasticsearch-cleaner
 - https://www.elarraydejota.com/curator-eliminando-indices-de-elasticsearch/
 - https://www.elastic.co/guide/en/elasticsearch/client/curator/current/fe_unit_count.html
+
+
+## Cassandra version
+- http://cassandra.apache.org/download/
+- Download the latest Apache Cassandra 3.11 release: 3.11.6 (pgp, sha256 and sha512), released on 2020-02-14.
