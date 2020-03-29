@@ -63,6 +63,12 @@ docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3-manag
 - https://www.elastic.co/guide/en/elasticsearch/client/curator/current/fe_unit_count.html
 
 
+## docker util
+- https://docs.docker.com/develop/develop-images/dockerfile_best-practices/
+- https://docs.docker.com/engine/reference/builder/#dockerignore-file
+- https://docs.docker.com/compose/compose-file/#healthcheck
+- https://docs.docker.com/compose/compose-file/#logging
+
 ## Cassandra version
 - http://cassandra.apache.org/download/
 - Download the latest Apache Cassandra 3.11 release: 3.11.6 (pgp, sha256 and sha512), released on 2020-02-14.
