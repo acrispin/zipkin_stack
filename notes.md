@@ -68,6 +68,8 @@ docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3-manag
 - https://docs.docker.com/engine/reference/builder/#dockerignore-file
 - https://docs.docker.com/compose/compose-file/#healthcheck
 - https://docs.docker.com/compose/compose-file/#logging
+- https://docs.docker.com/compose/compose-file/#depends_on
+
 
 ## Cassandra version
 - http://cassandra.apache.org/download/
