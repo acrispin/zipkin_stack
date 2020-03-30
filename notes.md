@@ -69,8 +69,15 @@ docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3-manag
 - https://docs.docker.com/compose/compose-file/#healthcheck
 - https://docs.docker.com/compose/compose-file/#logging
 - https://docs.docker.com/compose/compose-file/#depends_on
+- https://docs.docker.com/compose/compose-file/#environment
 
 
 ## Cassandra version
+- https://github.com/openzipkin/zipkin/tree/master/zipkin-server#cassandra-storage
 - http://cassandra.apache.org/download/
-- Download the latest Apache Cassandra 3.11 release: 3.11.6 (pgp, sha256 and sha512), released on 2020-02-14.
+- Apache Cassandra 3.11 release: 3.11.6 (pgp, sha256 and sha512), released on 2020-02-14.
+
+## Cassandra errors
+- OpenJDK 64-Bit Server VM warning: Cannot open file /cassandra/bin/../logs/gc.log due to No such file or directory
+- Warnings: SASI indexes are experimental and are not recommended for production use.
+- 
