@@ -1,19 +1,44 @@
 version: '3.7'
 services:  
 
-  elasticsearch6:
+#   elasticsearch6:
+#     build:
+#       context: .
+#       dockerfile: elasticsearch6/Dockerfile
+#     image: elasticsearch6-image:v1
+#     container_name: elasticsearch-zipkin
+#     ports:
+#       - 9200:9200
+#     restart: always
+#     networks:
+#       - zipkin-network
+#     volumes:
+#       - elasticsearch-data:/usr/share/elasticsearch/data
+#     logging:
+#       driver: "json-file"
+#       options:
+#         max-size: "100m"
+#         max-file: "3"
+#     deploy:
+#       resources:
+#         limits:
+#           cpus: '0.50'
+#           memory: 1500M
+
+  cassandra-service:
     build:
       context: .
-      dockerfile: elasticsearch6/Dockerfile
-    image: elasticsearch6-image:v1
-    container_name: elasticsearch-zipkin
+      dockerfile: cassandra/Dockerfile
+    image: zipkin-cassandra:v1
+    container_name: zipkin-cassandra-server
     ports:
-      - 9200:9200
+      - "9042:9042"
     restart: always
     networks:
-      - springcloudzipkin
+      - zipkin-network
     volumes:
-      - elasticsearch-data:/usr/share/elasticsearch/data
+    #   - cassandra-data:/var/lib/cassandra
+      - cassandra-data:/cassandra/data
     logging:
       driver: "json-file"
       options:
@@ -25,15 +50,15 @@ services:
           cpus: '0.50'
           memory: 1500M
 
-  microservicios-rabbitmq38:
+  rabbitmq-service:
     image: rabbitmq:3.8.3-rc.2-management-alpine
-    container_name: rabbitmq-zipkin
+    container_name: zipkin-rabbitmq-server
     ports:
       - "15672:15672"
       - "5672:5672"
     restart: always
     networks:
-      - springcloudzipkin
+      - zipkin-network
     volumes:
       - rabbitmq-data:/var/lib/rabbitmq
     logging:
@@ -47,27 +72,28 @@ services:
           cpus: '0.50'
           memory: 250M
 
-  zipkin-server:
+  zipkin-service:
     build:
       context: .
       dockerfile: zipkin/Dockerfile
-    image: zipkin-server:v1
-    container_name: server-zipkin
+    image: zipkin-web:v1
+    container_name: zipkin-web-server
     ports:
       - "9411:9411"
     restart: always
     networks:
-      - springcloudzipkin
+      - zipkin-network
     depends_on: 
-      - elasticsearch6
-      - microservicios-rabbitmq38
-    environment: 
-      RABBIT_ADDRESSES: rabbitmq-zipkin:5672
-      STORAGE_TYPE: elasticsearch
-      # Point the zipkin at the storage backend
-      ES_HOSTS: elasticsearch-zipkin:9200
-      # Uncomment to see requests to and from elasticsearch
-      ES_HTTP_LOGGING: BODY
+      - cassandra-service
+      - rabbitmq-service
+    environment:
+      RABBIT_ADDRESSES: zipkin-rabbitmq-server:5672
+      STORAGE_TYPE: cassandra3
+      # When using the test docker image, or have schema pre-installed, you don't need to re-install it
+      CASSANDRA_ENSURE_SCHEMA: 'false'
+      # When overriding this value, note the minimum supported version is 3.9
+      # If you you cannot run 3.9+, but can run 2.2+, set STORAGE_TYPE=cassandra
+      CASSANDRA_CONTACT_POINTS: zipkin-cassandra-server:9042
     logging:
       driver: "json-file"
       options:
@@ -79,32 +105,33 @@ services:
           cpus: '0.50'
           memory: 350M
 
-  curator:
-    # image: anjia0532/docker-curator:5.5.3
-    build:
-      context: .
-      dockerfile: curator/Dockerfile
-      args:
-        - CURATOR_VERSION=5.8.1
-    image: curator-image:v1
-    container_name: curator-zipkin
-    environment:
-      UNIT_COUNT: 1 # 10
-      UNIT: days # seconds minutes hours days weeks months years
-      ES_HOST: elasticsearch-zipkin
-    networks:
-      - springcloudzipkin
-    depends_on:
-      - elasticsearch6
-    deploy:
-      resources:
-        limits:
-          cpus: '0.25'
-          memory: 30M
+#   curator:
+#     # image: anjia0532/docker-curator:5.5.3
+#     build:
+#       context: .
+#       dockerfile: curator/Dockerfile
+#       args:
+#         - CURATOR_VERSION=5.8.1
+#     image: curator-image:v1
+#     container_name: curator-zipkin
+#     environment:
+#       UNIT_COUNT: 1 # 10
+#       UNIT: days # seconds minutes hours days weeks months years
+#       ES_HOST: elasticsearch-zipkin
+#     networks:
+#       - zipkin-network
+#     depends_on:
+#       - elasticsearch6
+#     deploy:
+#       resources:
+#         limits:
+#           cpus: '0.25'
+#           memory: 30M
           
 networks:
-  springcloudzipkin:
+  zipkin-network:
 
 volumes:
   rabbitmq-data:
-  elasticsearch-data:
+#   elasticsearch-data:
+  cassandra-data:
