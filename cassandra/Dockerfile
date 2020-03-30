@@ -35,12 +35,17 @@ WORKDIR /cassandra
 COPY --from=scratch /zipkin-schemas /zipkin-schemas
 COPY --from=scratch /usr/local/bin/install /usr/local/bin/install
 
+RUN chmod +x /usr/local/bin/install
+
 RUN /usr/local/bin/install
+
+ADD cassandra/run.sh /usr/local/bin/run.sh
+
+RUN chmod +x /usr/local/bin/run.sh
 
 # cassandra complains if run as root
 USER cassandra
 
-ADD cassandra/run.sh /usr/local/bin/run.sh
 CMD ["/usr/local/bin/run.sh"]
 
 EXPOSE 9160 7000 7001 9042 7199
