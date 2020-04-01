@@ -24,7 +24,7 @@ COPY cassandra/install.sh /usr/local/bin/install
 
 # Share the same base image to reduce layers used in testing
 FROM openzipkin/jre-full:1.8.0_212
-MAINTAINER OpenZipkin "http://zipkin.io/"
+LABEL maintainer="OpenZipkin http://zipkin.io/"
 
 ENV CASSANDRA_VERSION=3.11.6 \
     JAVA=/usr/local/java/jre/bin/java \
