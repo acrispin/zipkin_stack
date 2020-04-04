@@ -72,6 +72,27 @@ services:
           cpus: '0.50'
           memory: 250M
 
+#   kafka-service:
+#     image: openzipkin/zipkin-kafka
+#     container_name: zipkin-kafka-server
+#     ports:
+#       - 2181:2181
+#       - 9092:9092
+#       - 19092:19092
+#     restart: always
+#     networks:
+#       - zipkin-network
+#     logging:
+#       driver: "json-file"
+#       options:
+#         max-size: "100m"
+#         max-file: "3"
+#     deploy:
+#       resources:
+#         limits:
+#           cpus: '0.50'
+#           memory: 250M
+
   zipkin-service:
     build:
       context: .
@@ -86,8 +107,11 @@ services:
     depends_on: 
       - cassandra-service
       - rabbitmq-service
+    #   - kafka-service
     environment:
       RABBIT_ADDRESSES: zipkin-rabbitmq-server:5672
+      RABBIT_CONCURRENCY: 4
+      #KAFKA_BOOTSTRAP_SERVERS: zipkin-kafka-server:9092
       STORAGE_TYPE: cassandra3
       # When using the test docker image, or have schema pre-installed, you don't need to re-install it
       CASSANDRA_ENSURE_SCHEMA: 'false'

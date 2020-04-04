@@ -70,6 +70,7 @@ docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3-manag
 - https://docs.docker.com/compose/compose-file/#logging
 - https://docs.docker.com/compose/compose-file/#depends_on
 - https://docs.docker.com/compose/compose-file/#environment
+- https://superuser.com/questions/1160798/docker-compose-up-down-just-one-container
 
 
 ## Cassandra version
@@ -81,3 +82,6 @@ docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3-manag
 - OpenJDK 64-Bit Server VM warning: Cannot open file /cassandra/bin/../logs/gc.log due to No such file or directory
 - Warnings: SASI indexes are experimental and are not recommended for production use.
 - 
+
+## kafka version - 2.4.1
+- https://kafka.apache.org/quickstart
