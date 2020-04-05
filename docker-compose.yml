@@ -50,7 +50,7 @@ services:
           # for development or testing: 4 cpu min server host, for production: 8 cpu min server host
           cpus: '0.50'
           # for development or testing min value: 2048M (2G), for production min value: 4096M (4G), recomended value: 8192M (8G)
-          memory: 2560M
+          memory: 2048M
 
   rabbitmq-service:
     image: rabbitmq:3.8.3-rc.2-management-alpine
