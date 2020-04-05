@@ -47,8 +47,10 @@ services:
     deploy:
       resources:
         limits:
+          # for development or testing: 4 cpu min server host, for production: 8 cpu min server host
           cpus: '0.50'
-          memory: 1500M
+          # for development or testing min value: 2048M (2G), for production min value: 4096M (4G), recomended value: 8192M (8G)
+          memory: 2560M
 
   rabbitmq-service:
     image: rabbitmq:3.8.3-rc.2-management-alpine
@@ -110,7 +112,8 @@ services:
     #   - kafka-service
     environment:
       RABBIT_ADDRESSES: zipkin-rabbitmq-server:5672
-      RABBIT_CONCURRENCY: 4
+      # for development or testing: 2, for production: 4
+      RABBIT_CONCURRENCY: 2
       #KAFKA_BOOTSTRAP_SERVERS: zipkin-kafka-server:9092
       STORAGE_TYPE: cassandra3
       # When using the test docker image, or have schema pre-installed, you don't need to re-install it

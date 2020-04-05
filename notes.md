@@ -85,3 +85,14 @@ docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3-manag
 
 ## kafka version - 2.4.1
 - https://kafka.apache.org/quickstart
+
+## cassandra hardware requirements for produccion
+- http://cassandra.apache.org/doc/latest/operating/hardware.html
+- https://stackoverflow.com/questions/44616013/cassandra-node-hardware-requirement
+
+## rabbitmq hardware requirements for produccion
+- https://www.rabbitmq.com/production-checklist.html
+- https://github.com/bitnami/bitnami-docker-rabbitmq/issues/52
+``` 
+docker exec zipkin-rabbitmq-server rabbitmqctl set_vm_memory_high_watermark 0.7
+```
