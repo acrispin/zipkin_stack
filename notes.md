@@ -95,4 +95,5 @@ docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3-manag
 - https://github.com/bitnami/bitnami-docker-rabbitmq/issues/52
 ``` 
 docker exec zipkin-rabbitmq-server rabbitmqctl set_vm_memory_high_watermark 0.7
+docker-compose --compatibility exec rabbitmq-service rabbitmqctl set_vm_memory_high_watermark 0.7
 ```

@@ -50,7 +50,8 @@ services:
           # for development or testing: 4 cpu min server host, for production: 8 cpu min server host
           cpus: '0.50'
           # for development or testing min value: 2048M (2G), for production min value: 4096M (4G), recomended value: 8192M (8G)
-          memory: 2048M
+          # for development or testing min value: 2560M (2.5G) for server host with 10G Ram or above
+          memory: 2560M
 
   rabbitmq-service:
     image: rabbitmq:3.8.3-rc.2-management-alpine
@@ -112,7 +113,7 @@ services:
     #   - kafka-service
     environment:
       RABBIT_ADDRESSES: zipkin-rabbitmq-server:5672
-      # for development or testing: 2, for production: 4
+      # for development or testing: 2, for production: 4 or above
       RABBIT_CONCURRENCY: 2
       #KAFKA_BOOTSTRAP_SERVERS: zipkin-kafka-server:9092
       STORAGE_TYPE: cassandra3
@@ -121,6 +122,14 @@ services:
       # When overriding this value, note the minimum supported version is 3.9
       # If you you cannot run 3.9+, but can run 2.2+, set STORAGE_TYPE=cassandra
       CASSANDRA_CONTACT_POINTS: zipkin-cassandra-server:9042
+      # https://github.com/openzipkin/zipkin/tree/master/zipkin-server#self-tracing
+      #SELF_TRACING_ENABLED: 'true'
+      # if SELF_TRACING_ENABLED is true, for development set to 1.0, for production set to 0.001
+      #SELF_TRACING_SAMPLE_RATE: 1.0
+      # Uncomment to enable debug logging, for produccion set to INFO
+      #JAVA_OPTS: -Dlogging.level.zipkin2=DEBUG
+      # https://github.com/openzipkin/zipkin/tree/master/zipkin-server#configuration
+      QUERY_LOG_LEVEL: DEBUG
     logging:
       driver: "json-file"
       options:
