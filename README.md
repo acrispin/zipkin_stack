@@ -31,7 +31,7 @@ docker-compose --compatibility restart zipkin-service
 docker-compose --compatibility down  
 
 # detener y eliminar para un contenedor o servicio especifico, -v elimina volumen anonimom asociado al contenedor
-## https://superuser.com/questions/1160798/docker-compose-up-down-just-one-
+## https://superuser.com/questions/1160798/docker-compose-up-down-just-one-container
 docker-compose --compatibility rm -fs zipkin-service  
 docker-compose --compatibility rm -fs cassandra-service  
 
