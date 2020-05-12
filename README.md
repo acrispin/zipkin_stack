@@ -17,22 +17,27 @@ docker-compose --compatibility up -d rabbitmq-service
 docker-compose --compatibility up -d zipkin-service  
 
 # ejecutar los contenedores reconstruyendo las imagenes
-docker-compose --compatibility up -d --build
+docker-compose --compatibility up -d --build  
 docker-compose --compatibility up -d --build cassandra-service  
 
 # detener, construir, ejecutar un servicio, iniciar, reiniciar
 docker-compose --compatibility stop zipkin-service  
 docker-compose --compatibility build zipkin-service  
 docker-compose --compatibility up -d zipkin-service  
-docker-compose --compatibility start zipkin-service
-docker-compose --compatibility restart zipkin-service
+docker-compose --compatibility start zipkin-service  
+docker-compose --compatibility restart zipkin-service  
 
 # detener y eliminar todos los contenedores o servicios
-docker-compose --compatibility down
+docker-compose --compatibility down  
 
 # detener y eliminar para un contenedor o servicio especifico, -v elimina volumen anonimom asociado al contenedor
-## https://superuser.com/questions/1160798/docker-compose-up-down-just-one-container
-docker-compose --compatibility rm -fs zipkin-service
+## https://superuser.com/questions/1160798/docker-compose-up-down-just-one-
+docker-compose --compatibility rm -fs zipkin-service  
+docker-compose --compatibility rm -fs cassandra-service  
+
+# luego levantar los servicios
+docker-compose --compatibility up -d cassandra-service  
+docker-compose --compatibility up -d zipkin-service  
 
 # entrar al contener con bash o sh por servicio
 docker-compose --compatibility exec cassandra-service sh  
