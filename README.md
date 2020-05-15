@@ -16,9 +16,8 @@ docker-compose --compatibility up -d cassandra-service
 docker-compose --compatibility up -d rabbitmq-service  
 docker-compose --compatibility up -d zipkin-service  
 
-# ejecutar los contenedores reconstruyendo las imagenes
+# ejecutar los contenedores reconstruyendo todas las imagenes
 docker-compose --compatibility up -d --build  
-docker-compose --compatibility up -d --build cassandra-service  
 
 # detener, construir, ejecutar un servicio, iniciar, reiniciar
 docker-compose --compatibility stop zipkin-service  
