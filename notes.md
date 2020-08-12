@@ -55,6 +55,12 @@ $ sudo sysctl -w vm.max_map_count=262144
 docker run -it --rm --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3-management
 ```
 
+## install rabbitmq 2, with Detached (-d)
+``` 
+docker run -d --name rabbitmq -p 5672:5672 -p 15672:15672 -e "TZ=America/Lima" rabbitmq:3-management
+docker logs -f --tail 100 rabbitmq
+```
+
 ## zipkin elasticsearch remove old data | elasticsearch curator
 - https://hub.docker.com/r/anjia0532/docker-curator
 - https://github.com/anjia0532/docker-curator
